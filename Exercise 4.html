@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <body>
+<script src="https://npmcdn.com/vue/dist/vue.js"></script>
+<style>
+  #effect {
+  width: 100px;
+  height: 100px;
+  border: 1px solid black;
+}
+
+.highlight {
+  background-color: red;
+  width: 200px !important;
+}
+
+.shrink {
+  background-color: gray;
+  width: 50px !important;
+}
+
+.color{
+  color: red;
+}
+
+.border{
+  border: 1px solid green;
+}
+
+.progressBar{
+  border: 1px solid black;
+  height: 20px;
+}
+
+.innerdiv{
+  background-color: green;
+}
+
+</style>
+
+<div id="exercise">
+  <p>1. Start the Effect with the Button.
+    The Effect should alternate the "highlight" or "shrink" class on each new setInterval tick.
+    Attach respective class to the div with id "effect" below </p>
+  <div>
+    <button @click="startEffect">Start Effect</button>
+    <div id="effect" v-bind:class="effectValue? 'highlight':'shrink'"></div>
+  </div>
+  <p>2. Create a couple of CSS classes and attach them via the array syntax </p>
+  <div v-bind:class="['color','border']">I need the class!</div>
+  <p>3. Let the user enter a class (create some example classes) and attach it </p>
+  <div>
+    Enter a classname from the following options:-<br/>
+    'border', 'color'<br/>
+    <input type="text" @keyup='classAddedByUser'>
+    <div v-bind:class='cssClass'>Div content</div>
+  </div>
+  <p>4. Let the user enter a class and attach the classes (space separated) to the div </p>
+  <div>
+    <input type="text" @keyup='classAddedByUser2'>
+    <div v-bind:class=''>Implemented in 3.</div>
+  </div>
+  <p>5. Create a simple progress bar with setInterval and style bindings. Start it by hitting the below button. </p>
+  <div>
+    <button v-on:click="startProgress">Start Progress</button>
+    <div class="progressBar" v-bind:style="getdivwidth()"> </div>
+    <div>{{ percentage }} %</div>
+  </div>
+</div>
+
+<script>
+    var exercise = new Vue({
+        el: '#exercise',
+        data: {
+          effectValue: true,
+          cssClass: '',
+          percentage: 0,
+        },
+        watch: {
+            percentage: function(ov,nv){
+            if(this.percentage >= 100){
+              clearInterval(intervalid1); 
+              this.percentage =0;
+            }
+          }
+            },
+        methods: {
+          startEffect: function(){
+             setInterval(function(){
+              this.effectValue = !this.effectValue;
+            }.bind(this),1000)
+          },
+          classAddedByUser: function(event){
+            console.log('cc',event.target.value )
+            this.cssClass = event.target.value;
+          },
+          classAddedByUser2: function(event){
+            console.log('cc',event.target.value )
+            this.cssClass = event.target.value;
+          },
+          startProgress: function(){
+            intervalid1 = setInterval(function(){
+              this.percentage += 1;
+            }.bind(this),50)
+          },
+          getdivwidth: function(){
+            return {
+            'width': this.percentage + '%',
+            'background-color': 'green'
+            };
+          }
+        }
+    });
+</script>
+</body>
+</html>
