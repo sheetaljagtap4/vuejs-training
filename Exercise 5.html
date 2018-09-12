@@ -27,7 +27,13 @@
   </ul>
   <p>4. Print the following object (only the values) and also create a nested loop for the testData array</p>
   <ul v-for='(value, key, index) in testData'>
-    <li>{{value}}</li>
+      <li >
+        <span  v-if="Array.isArray(value)" >
+          <span v-for="val in value">
+            {{val}}
+          </span>
+        </span>
+        <span  v-else >{{ value }}</span>
   </ul>
 </div>
 
